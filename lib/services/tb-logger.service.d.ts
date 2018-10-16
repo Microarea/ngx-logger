@@ -13,10 +13,39 @@ export declare class TbLoggerService {
      * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
      */
     getLoggerUrl(): any;
+    /**
+     * Console.log in attesa di post to logger
+     *
+     * @param message
+     * @param optionalParams
+     */
     log(message?: any, ...optionalParams: any[]): void;
+    /**
+     * Console.log in attesa di post to logger
+     *
+     * @param message
+     * @param optionalParams
+     */
     debug(message?: any, ...optionalParams: any[]): void;
+    /**
+     * Console.warn in attesa di post to logger
+     *
+     * @param message
+     * @param optionalParams
+     */
     warn(message?: any, ...optionalParams: any[]): void;
+    /**
+     * Console.error in attesa di post to logger
+     *
+     * @param message
+     * @param optionalParams
+     */
     error(message?: any, ...optionalParams: any[]): void;
+    /**
+     * Return logs: LoggerOperationResult
+     *
+     * @param params: EntriesParams
+     */
     getLogs(params: EntriesParams): Observable<boolean | LoggerOperationResult>;
     getApps(appId: string): Observable<boolean | LoggerOperationResult>;
     getAppTypes(appId: string): Observable<boolean | LoggerOperationResult>;
