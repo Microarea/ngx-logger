@@ -1,3 +1,4 @@
+export * from './lib/models/entries.model';
 export * from './lib/models/operation-result.model';
 export * from './lib/models/logger-operation-result.model';
 export * from './lib/models/log.model';

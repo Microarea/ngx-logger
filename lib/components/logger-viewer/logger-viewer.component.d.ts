@@ -1,14 +1,17 @@
 import { OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Log } from './../../models/log.model';
 import { LogStatus } from './../../models/log-status.enum';
 import { TbLoggerService } from './../../services/tb-logger.service';
 export declare class LoggerViewerComponent implements OnInit, AfterViewInit {
-    private http;
     loggerService: TbLoggerService;
-    appIdList: any;
-    appIdData: Array<string>;
+    appIdInput: any;
     appId: string;
+    appList: any;
+    appData: Array<string>;
+    app: string;
+    appTypeList: any;
+    appTypeData: Array<string>;
+    appType: string;
     logs: Log[];
     logStatus: typeof LogStatus;
     show: boolean;
@@ -17,14 +20,17 @@ export declare class LoggerViewerComponent implements OnInit, AfterViewInit {
     checked: boolean;
     autoRefresh: boolean;
     autoRefreshInterval: any;
+    message: string;
     loggerUrl: any;
-    constructor(http: HttpClient, loggerService: TbLoggerService);
+    constructor(loggerService: TbLoggerService);
     ngOnInit(): void;
     ngAfterViewInit(): void;
-    appIdListInit(): void;
+    appListInit(): boolean;
     getLogs(): void;
     setLoggerUrl(event: any): void;
+    setApp($event: any): void;
     setAppId($event: any): void;
+    setAppType($event: any): void;
     close(): void;
     checkAutoRefresh(event: any): void;
 }
