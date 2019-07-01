@@ -1,22 +1,22 @@
 export declare class Log {
     _id: string;
-    LogEntry: {
-        App: string;
-        RegisteredAppId: string;
-        RegisteredAppType: string;
-        Category: string;
-        Module: string;
-        SubModule: string;
-        Document: string;
-        Subscription: string;
-        AccountName: string;
-        Lifetime: string;
-        Operation: string;
-        ContextDescription: string;
-        Method: string;
-        EntryCreated: string;
-        Message: string;
-        Level: number;
+    logEntry: {
+        app: string;
+        registeredAppId: string;
+        registeredAppType: string;
+        category: string;
+        module: string;
+        subModule: string;
+        document: string;
+        subscription: string;
+        accountName: string;
+        lifetime: string;
+        operation: string;
+        contextDescription: string;
+        method: string;
+        entryCreated: string;
+        message: string;
+        level: number;
     };
     constructor();
 }

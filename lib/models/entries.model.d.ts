@@ -1,12 +1,16 @@
 export declare class EntriesParams {
-    appId: string;
+    instanceKey: string;
+    subscriptionKey: string;
     apps: string;
     appTypes: string;
-    categories: string;
+    category: string;
     howMany: string;
     offSet: string;
     levels: string;
     textToFind: string;
     useHistory: string;
+    accountName: string;
+    rangeDateStart: string;
+    rangeDateEnd: string;
     constructor();
 }

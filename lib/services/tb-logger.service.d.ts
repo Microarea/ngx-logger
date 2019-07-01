@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { EntriesParams } from '../models/entries.model';
-import { LoggerOperationResult } from '../models/logger-operation-result.model';
+import { LoggerOperationResult, TBServerInfo } from '../models/logger-operation-result.model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { StompRService, StompState } from '@stomp/ng2-stompjs';
+import { MonitorParams } from '../models/monitor.model';
 export declare class TbLoggerService {
     private env;
     private http;
     stompService: StompRService;
     loggerUrl: string;
+    serverMonitorUrl: string;
     private howMany;
     mqConnectionState: StompState;
     mqConnectionStateObservable: BehaviorSubject<StompState>;
@@ -18,6 +20,10 @@ export declare class TbLoggerService {
      * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
      */
     getLoggerUrl(): any;
+    /**
+     * M4 Backend URL
+     */
+    getServerMonitorUrl(): any;
     /**
      * Console.log in attesa di post to logger
      *
@@ -54,6 +60,12 @@ export declare class TbLoggerService {
     getLogs(params: EntriesParams): Observable<boolean | LoggerOperationResult>;
     getApps(appId: string): Observable<boolean | LoggerOperationResult>;
     getAppTypes(appId: string): Observable<boolean | LoggerOperationResult>;
+    getInstanceKey(): Observable<boolean | LoggerOperationResult>;
+    /**
+     * Legge tutte le subscription
+     */
+    getSubscriptionKey(): Observable<boolean | LoggerOperationResult>;
+    getCategories(appId: string): Observable<boolean | LoggerOperationResult>;
     /**
      * Handle Http operation that failed.
      * Let the app continue.
@@ -67,4 +79,5 @@ export declare class TbLoggerService {
     mqConnect(queueName: string): Observable<any>;
     mqConnected(): boolean;
     mqDisconnect(): void;
+    getTBInfosLogs(params: MonitorParams): Observable<boolean | TBServerInfo[]>;
 }
