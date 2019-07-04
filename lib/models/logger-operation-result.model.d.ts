@@ -10,14 +10,15 @@ export declare class TBServerInfos {
     constructor();
 }
 export declare class TBServerInfo {
-    processName: string;
-    loginNumber?: number;
-    documentNumber?: number;
-    docMetrics?: any[];
-    kernelMS?: number;
-    loginInfos?: any[];
-    phisicalMemory?: number;
-    userMS?: number;
-    virtualMemory?: number;
+    DateTime: string;
+    ProcessName: string;
+    LoginNumber?: number;
+    DocumentNumber?: number;
+    DocMetrics?: any[];
+    LernelMS?: number;
+    LoginInfos?: any[];
+    PhisicalMemory?: number;
+    UserMS?: number;
+    VirtualMemory?: number;
     constructor();
 }
