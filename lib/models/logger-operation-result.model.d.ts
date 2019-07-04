@@ -20,5 +20,6 @@ export declare class TBServerInfo {
     PhisicalMemory?: number;
     UserMS?: number;
     VirtualMemory?: number;
+    threads?: any[];
     constructor();
 }
