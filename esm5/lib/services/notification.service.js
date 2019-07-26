@@ -33,7 +33,7 @@ var TbNotificationService = /** @class */ (function () {
     TbNotificationService.decorators = [
         { type: Injectable, args: [{
                     providedIn: 'root'
-                },] },
+                },] }
     ];
     /** @nocollapse */
     TbNotificationService.ctorParameters = function () { return [

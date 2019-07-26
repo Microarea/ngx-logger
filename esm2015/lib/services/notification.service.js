@@ -31,7 +31,7 @@ export class TbNotificationService {
 TbNotificationService.decorators = [
     { type: Injectable, args: [{
                 providedIn: 'root'
-            },] },
+            },] }
 ];
 /** @nocollapse */
 TbNotificationService.ctorParameters = () => [

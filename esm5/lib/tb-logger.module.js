@@ -30,7 +30,7 @@ var TbLoggerModule = /** @class */ (function () {
         { type: NgModule, args: [{
                     imports: [CommonModule, NotificationModule, ButtonsModule, InputsModule, DateInputsModule, FormsModule, DropDownsModule],
                     providers: [StompRService]
-                },] },
+                },] }
     ];
     return TbLoggerModule;
 }());

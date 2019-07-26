@@ -1,8 +1,8 @@
 export declare class LoggerOperationResult {
-    result: boolean;
-    message?: string;
-    code?: number;
-    content?: any;
+    Result: boolean;
+    Message?: string;
+    Code?: number;
+    Content?: any;
     constructor();
 }
 export declare class TBServerInfos {
