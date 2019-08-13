@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common/http'), require('rxjs/operators'), require('rxjs'), require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('@progress/kendo-angular-buttons'), require('@progress/kendo-angular-dropdowns'), require('@progress/kendo-angular-inputs'), require('@progress/kendo-angular-dateinputs'), require('@progress/kendo-angular-notification'), require('@stomp/ng2-stompjs')) :
-    typeof define === 'function' && define.amd ? define('@tb/logger', ['exports', '@angular/common/http', 'rxjs/operators', 'rxjs', '@angular/core', '@angular/common', '@angular/forms', '@progress/kendo-angular-buttons', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-notification', '@stomp/ng2-stompjs'], factory) :
-    (factory((global.tb = global.tb || {}, global.tb.logger = {}),global.ng.common.http,global.rxjs.operators,global.rxjs,global.ng.core,global.ng.common,global.ng.forms,global.kendoAngularButtons,global.kendoAngularDropdowns,global.kendoAngularInputs,global.kendoAngularDateinputs,global.i1$1,global.i2));
-}(this, (function (exports,i1,operators,rxjs,i0,common,forms,kendoAngularButtons,kendoAngularDropdowns,kendoAngularInputs,kendoAngularDateinputs,i1$1,i2) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common/http'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('@progress/kendo-angular-buttons'), require('@progress/kendo-angular-dropdowns'), require('@progress/kendo-angular-inputs'), require('@progress/kendo-angular-dateinputs'), require('@progress/kendo-angular-notification'), require('@stomp/ng2-stompjs')) :
+    typeof define === 'function' && define.amd ? define('@tb/logger', ['exports', '@angular/common/http', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/common', '@angular/forms', '@progress/kendo-angular-buttons', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-notification', '@stomp/ng2-stompjs'], factory) :
+    (factory((global.tb = global.tb || {}, global.tb.logger = {}),global.ng.common.http,global.rxjs,global.rxjs.operators,global.ng.core,global.ng.common,global.ng.forms,global.kendoAngularButtons,global.kendoAngularDropdowns,global.kendoAngularInputs,global.kendoAngularDateinputs,global.i1$1,global.i2));
+}(this, (function (exports,i1,rxjs,operators,i0,common,forms,kendoAngularButtons,kendoAngularDropdowns,kendoAngularInputs,kendoAngularDateinputs,i1$1,i2) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
@@ -82,62 +82,68 @@
     LogStatus[LogStatus.Error] = 'Error';
     LogStatus[LogStatus.Fatal] = 'Fatal';
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
-
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
-
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
-    ***************************************************************************** */
-    function __read(o, n) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m)
-            return o;
-        var i = m.call(o), r, ar = [], e;
-        try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
-                ar.push(r.value);
-        }
-        catch (error) {
-            e = { error: error };
-        }
-        finally {
-            try {
-                if (r && !r.done && (m = i["return"]))
-                    m.call(i);
-            }
-            finally {
-                if (e)
-                    throw e.error;
-            }
-        }
-        return ar;
-    }
-    function __spread() {
-        for (var ar = [], i = 0; i < arguments.length; i++)
-            ar = ar.concat(__read(arguments[i]));
-        return ar;
-    }
-
     /**
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    /** @type {?} */
+    var loggerInstance;
+    /** @type {?} */
+    var logger = ( /**
+     * @return {?}
+     */function () { return loggerInstance; });
+    /** @enum {number} */
+    var LogLevel = {
+        Trace: 0,
+        Debug: 1,
+        Warn: 2,
+        Error: 3,
+    };
+    LogLevel[LogLevel.Trace] = 'Trace';
+    LogLevel[LogLevel.Debug] = 'Debug';
+    LogLevel[LogLevel.Warn] = 'Warn';
+    LogLevel[LogLevel.Error] = 'Error';
+    /**
+     * @param {?} message
+     * @param {?=} logLevel
+     * @return {?}
+     */
+    function prepareLog(message, logLevel) {
+        if (logLevel === void 0) {
+            logLevel = LogLevel.Debug;
+        }
+        /** @type {?} */
+        var log = {
+            Message: message,
+            Registeredappid: logger().getAppId(),
+            AccountName: localStorage.getItem('_accountname'),
+            Subscription: localStorage.getItem('_company'),
+            Category: 'Client',
+            Level: logLevel
+        };
+        return log;
+    }
     var TbLoggerService = /** @class */ (function () {
         function TbLoggerService(env, http, stompService) {
+            var _this = this;
             this.env = env;
             this.http = http;
             this.stompService = stompService;
             this.howMany = 100;
             this.mqConnectionState = i2.StompState.CLOSED;
             this.mqConnectionStateObservable = new rxjs.BehaviorSubject(i2.StompState.CLOSED);
+            this._shouldLog = ( /**
+             * @param {?} logLevel
+             * @return {?}
+             */function (logLevel) { return logLevel >= _this.env.logger.level; });
+            this._serverLog = ( /**
+             * @param {?} logLevel
+             * @param {?} message
+             * @return {?}
+             */function (logLevel, message) {
+                return _this._shouldLog(logLevel) && _this.http.post(_this.getLoggerPostUrl(), prepareLog(message, logLevel)).toPromise();
+            });
+            loggerInstance = this;
             if (env.stompConfig)
                 this.mqInit();
         }
@@ -162,6 +168,23 @@
                 }
             };
         /**
+         * Ritorna la App Id dell'applicazione frontend che sta loggando,
+         * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+         */
+        /**
+         * Ritorna la App Id dell'applicazione frontend che sta loggando,
+         * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+         * @return {?}
+         */
+        TbLoggerService.prototype.getAppId = /**
+         * Ritorna la App Id dell'applicazione frontend che sta loggando,
+         * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+         * @return {?}
+         */
+            function () {
+                return sessionStorage.getItem('_instanceKey') || this.env.logger.appId;
+            };
+        /**
          * Ritorna la base url del logger,
          * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
          */
@@ -177,6 +200,20 @@
          */
             function () {
                 return this.loggerUrl ? this.loggerUrl : this.env.logger.url;
+            };
+        /**
+         * Ritorna la api per inserire log con appId configurato in environment.json
+         */
+        /**
+         * Ritorna la api per inserire log con appId configurato in environment.json
+         * @return {?}
+         */
+        TbLoggerService.prototype.getLoggerPostUrl = /**
+         * Ritorna la api per inserire log con appId configurato in environment.json
+         * @return {?}
+         */
+            function () {
+                return this.getLoggerUrl() + "entries/" + this.getAppId() + "/";
             };
         /**
          * M4 Backend URL
@@ -202,22 +239,18 @@
          * Console.log in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
         TbLoggerService.prototype.log = /**
          * Console.log in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
             function (message) {
-                var optionalParams = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    optionalParams[_i - 1] = arguments[_i];
-                }
-                console.log.apply(console, __spread([message], optionalParams));
+                if (this._shouldLog(LogLevel.Trace))
+                    console.log("%c" + message, "color:#3daf67");
+                this._serverLog(LogLevel.Trace, message);
             };
         /**
          * Console.log in attesa di post to logger
@@ -229,22 +262,18 @@
          * Console.log in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
         TbLoggerService.prototype.debug = /**
          * Console.log in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
             function (message) {
-                var optionalParams = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    optionalParams[_i - 1] = arguments[_i];
-                }
-                console.log.apply(console, __spread([message], optionalParams));
+                if (this._shouldLog(LogLevel.Trace))
+                    console.log("%c" + message, "color:#0277bd");
+                this._serverLog(LogLevel.Debug, message);
             };
         /**
          * Console.warn in attesa di post to logger
@@ -256,22 +285,18 @@
          * Console.warn in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
         TbLoggerService.prototype.warn = /**
          * Console.warn in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
             function (message) {
-                var optionalParams = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    optionalParams[_i - 1] = arguments[_i];
-                }
-                console.warn.apply(console, __spread([message], optionalParams));
+                if (this._shouldLog(LogLevel.Trace))
+                    console.log("%c" + message, "color:#FF9633");
+                this._serverLog(LogLevel.Warn, message);
             };
         /**
          * Console.error in attesa di post to logger
@@ -283,22 +308,18 @@
          * Console.error in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
         TbLoggerService.prototype.error = /**
          * Console.error in attesa di post to logger
          *
          * @param {?=} message
-         * @param {...?} optionalParams
          * @return {?}
          */
             function (message) {
-                var optionalParams = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    optionalParams[_i - 1] = arguments[_i];
-                }
-                console.error.apply(console, __spread([message], optionalParams));
+                if (this._shouldLog(LogLevel.Error))
+                    console.error("%c" + message, "color:red");
+                this._serverLog(LogLevel.Error, message);
             };
         /**
          * Return logs: LoggerOperationResult
@@ -667,6 +688,9 @@
     exports.TBServerInfo = TBServerInfo;
     exports.Log = Log;
     exports.LogStatus = LogStatus;
+    exports.prepareLog = prepareLog;
+    exports.logger = logger;
+    exports.LogLevel = LogLevel;
     exports.TbLoggerService = TbLoggerService;
     exports.TbNotificationService = TbNotificationService;
     exports.TbLoggerModule = TbLoggerModule;

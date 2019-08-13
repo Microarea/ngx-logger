@@ -1,7 +1,6 @@
-import { __spread } from 'tslib';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable, Inject, NgModule, defineInjectable, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -94,14 +93,65 @@ LogStatus[LogStatus.Fatal] = 'Fatal';
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+var loggerInstance;
+/** @type {?} */
+var logger = (/**
+ * @return {?}
+ */
+function () { return loggerInstance; });
+/** @enum {number} */
+var LogLevel = {
+    Trace: 0,
+    Debug: 1,
+    Warn: 2,
+    Error: 3,
+};
+LogLevel[LogLevel.Trace] = 'Trace';
+LogLevel[LogLevel.Debug] = 'Debug';
+LogLevel[LogLevel.Warn] = 'Warn';
+LogLevel[LogLevel.Error] = 'Error';
+/**
+ * @param {?} message
+ * @param {?=} logLevel
+ * @return {?}
+ */
+function prepareLog(message, logLevel) {
+    if (logLevel === void 0) { logLevel = LogLevel.Debug; }
+    /** @type {?} */
+    var log = {
+        Message: message,
+        Registeredappid: logger().getAppId(),
+        AccountName: localStorage.getItem('_accountname'),
+        Subscription: localStorage.getItem('_company'),
+        Category: 'Client',
+        Level: logLevel
+    };
+    return log;
+}
 var TbLoggerService = /** @class */ (function () {
     function TbLoggerService(env, http, stompService) {
+        var _this = this;
         this.env = env;
         this.http = http;
         this.stompService = stompService;
         this.howMany = 100;
         this.mqConnectionState = StompState.CLOSED;
         this.mqConnectionStateObservable = new BehaviorSubject(StompState.CLOSED);
+        this._shouldLog = (/**
+         * @param {?} logLevel
+         * @return {?}
+         */
+        function (logLevel) { return logLevel >= _this.env.logger.level; });
+        this._serverLog = (/**
+         * @param {?} logLevel
+         * @param {?} message
+         * @return {?}
+         */
+        function (logLevel, message) {
+            return _this._shouldLog(logLevel) && _this.http.post(_this.getLoggerPostUrl(), prepareLog(message, logLevel)).toPromise();
+        });
+        loggerInstance = this;
         if (env.stompConfig)
             this.mqInit();
     }
@@ -127,6 +177,23 @@ var TbLoggerService = /** @class */ (function () {
         }
     };
     /**
+     * Ritorna la App Id dell'applicazione frontend che sta loggando,
+     * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+     */
+    /**
+     * Ritorna la App Id dell'applicazione frontend che sta loggando,
+     * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+     * @return {?}
+     */
+    TbLoggerService.prototype.getAppId = /**
+     * Ritorna la App Id dell'applicazione frontend che sta loggando,
+     * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
+     * @return {?}
+     */
+    function () {
+        return sessionStorage.getItem('_instanceKey') || this.env.logger.appId;
+    };
+    /**
      * Ritorna la base url del logger,
      * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
      */
@@ -142,6 +209,20 @@ var TbLoggerService = /** @class */ (function () {
      */
     function () {
         return this.loggerUrl ? this.loggerUrl : this.env.logger.url;
+    };
+    /**
+     * Ritorna la api per inserire log con appId configurato in environment.json
+     */
+    /**
+     * Ritorna la api per inserire log con appId configurato in environment.json
+     * @return {?}
+     */
+    TbLoggerService.prototype.getLoggerPostUrl = /**
+     * Ritorna la api per inserire log con appId configurato in environment.json
+     * @return {?}
+     */
+    function () {
+        return this.getLoggerUrl() + "entries/" + this.getAppId() + "/";
     };
     /**
      * M4 Backend URL
@@ -167,22 +248,18 @@ var TbLoggerService = /** @class */ (function () {
      * Console.log in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     TbLoggerService.prototype.log = /**
      * Console.log in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     function (message) {
-        var optionalParams = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-        }
-        console.log.apply(console, __spread([message], optionalParams));
+        if (this._shouldLog(LogLevel.Trace))
+            console.log("%c" + message, "color:#3daf67");
+        this._serverLog(LogLevel.Trace, message);
     };
     /**
      * Console.log in attesa di post to logger
@@ -194,22 +271,18 @@ var TbLoggerService = /** @class */ (function () {
      * Console.log in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     TbLoggerService.prototype.debug = /**
      * Console.log in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     function (message) {
-        var optionalParams = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-        }
-        console.log.apply(console, __spread([message], optionalParams));
+        if (this._shouldLog(LogLevel.Trace))
+            console.log("%c" + message, "color:#0277bd");
+        this._serverLog(LogLevel.Debug, message);
     };
     /**
      * Console.warn in attesa di post to logger
@@ -221,22 +294,18 @@ var TbLoggerService = /** @class */ (function () {
      * Console.warn in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     TbLoggerService.prototype.warn = /**
      * Console.warn in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     function (message) {
-        var optionalParams = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-        }
-        console.warn.apply(console, __spread([message], optionalParams));
+        if (this._shouldLog(LogLevel.Trace))
+            console.log("%c" + message, "color:#FF9633");
+        this._serverLog(LogLevel.Warn, message);
     };
     /**
      * Console.error in attesa di post to logger
@@ -248,22 +317,18 @@ var TbLoggerService = /** @class */ (function () {
      * Console.error in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     TbLoggerService.prototype.error = /**
      * Console.error in attesa di post to logger
      *
      * @param {?=} message
-     * @param {...?} optionalParams
      * @return {?}
      */
     function (message) {
-        var optionalParams = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            optionalParams[_i - 1] = arguments[_i];
-        }
-        console.error.apply(console, __spread([message], optionalParams));
+        if (this._shouldLog(LogLevel.Error))
+            console.error("%c" + message, "color:red");
+        this._serverLog(LogLevel.Error, message);
     };
     /**
      * Return logs: LoggerOperationResult
@@ -618,6 +683,6 @@ var TbLoggerModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { EntriesParams, MonitorParams, OperationResult, LoggerOperationResult, TBServerInfos, TBServerInfo, Log, LogStatus, TbLoggerService, TbNotificationService, TbLoggerModule };
+export { EntriesParams, MonitorParams, OperationResult, LoggerOperationResult, TBServerInfos, TBServerInfo, Log, LogStatus, prepareLog, logger, LogLevel, TbLoggerService, TbNotificationService, TbLoggerModule };
 
 //# sourceMappingURL=tb-logger.js.map
