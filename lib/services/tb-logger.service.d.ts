@@ -53,33 +53,32 @@ export declare class TbLoggerService {
     private _shouldLog;
     private _serverLog;
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     log(message?: any): void;
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     debug(message?: any): void;
     /**
-     * Console.warn in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     warn(message?: any): void;
     /**
-     * Console.error in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     error(message?: any): void;
+    /**
+     * Log per statistiche client (es: usato da login page per tracciare risoluzione schermo)
+     *
+     * @param message
+     * @param optionalParams
+     */
+    stat(message?: any): void;
     /**
      * Return logs: LoggerOperationResult
      *

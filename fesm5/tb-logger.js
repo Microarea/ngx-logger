@@ -239,20 +239,14 @@ var TbLoggerService = /** @class */ (function () {
         return this.serverMonitorUrl ? this.serverMonitorUrl : this.env.serverMonitor.url;
     };
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     TbLoggerService.prototype.log = /**
-     * Console.log in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
@@ -262,66 +256,48 @@ var TbLoggerService = /** @class */ (function () {
         this._serverLog(LogLevel.Trace, message);
     };
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     /**
-     * Console.log in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     TbLoggerService.prototype.debug = /**
-     * Console.log in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     function (message) {
-        if (this._shouldLog(LogLevel.Trace))
+        if (this._shouldLog(LogLevel.Debug))
             console.log("%c" + message, "color:#0277bd");
         this._serverLog(LogLevel.Debug, message);
     };
     /**
-     * Console.warn in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     /**
-     * Console.warn in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     TbLoggerService.prototype.warn = /**
-     * Console.warn in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     function (message) {
-        if (this._shouldLog(LogLevel.Trace))
+        if (this._shouldLog(LogLevel.Warn))
             console.log("%c" + message, "color:#FF9633");
         this._serverLog(LogLevel.Warn, message);
     };
     /**
-     * Console.error in attesa di post to logger
-     *
      * @param message
      * @param optionalParams
      */
     /**
-     * Console.error in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
     TbLoggerService.prototype.error = /**
-     * Console.error in attesa di post to logger
-     *
      * @param {?=} message
      * @return {?}
      */
@@ -329,6 +305,28 @@ var TbLoggerService = /** @class */ (function () {
         if (this._shouldLog(LogLevel.Error))
             console.error("%c" + message, "color:red");
         this._serverLog(LogLevel.Error, message);
+    };
+    /**
+     * Log per statistiche client (es: usato da login page per tracciare risoluzione schermo)
+     *
+     * @param message
+     * @param optionalParams
+     */
+    /**
+     * Log per statistiche client (es: usato da login page per tracciare risoluzione schermo)
+     *
+     * @param {?=} message
+     * @return {?}
+     */
+    TbLoggerService.prototype.stat = /**
+     * Log per statistiche client (es: usato da login page per tracciare risoluzione schermo)
+     *
+     * @param {?=} message
+     * @return {?}
+     */
+    function (message) {
+        console.log("%c" + message, "color:#884EA0");
+        this._serverLog(LogLevel.Trace, message);
     };
     /**
      * Return logs: LoggerOperationResult
