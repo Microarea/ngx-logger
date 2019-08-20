@@ -191,7 +191,7 @@ var TbLoggerService = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        return sessionStorage.getItem('_instanceKey') || this.env.logger.appId;
+        return this.env.logger.appId;
     };
     /**
      * Ritorna la base url del logger,
