@@ -1,79 +1,171 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { of, BehaviorSubject } from 'rxjs';
+import { Injectable, Inject, ɵɵdefineInjectable, ɵɵinject, NgModule } from '@angular/core';
+import { HttpParams, HttpClient } from '@angular/common/http';
+import { BehaviorSubject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Injectable, Inject, NgModule, defineInjectable, inject } from '@angular/core';
+import { StompState, StompRService } from '@stomp/ng2-stompjs';
+import { NotificationService, NotificationModule } from '@progress/kendo-angular-notification';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { NotificationService, NotificationModule } from '@progress/kendo-angular-notification';
-import { StompRService, StompState } from '@stomp/ng2-stompjs';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EntriesParams = /** @class */ (function () {
     function EntriesParams() {
     }
     return EntriesParams;
 }());
+if (false) {
+    /** @type {?} */
+    EntriesParams.prototype.instanceKey;
+    /** @type {?} */
+    EntriesParams.prototype.subscriptionKey;
+    /** @type {?} */
+    EntriesParams.prototype.apps;
+    /** @type {?} */
+    EntriesParams.prototype.appTypes;
+    /** @type {?} */
+    EntriesParams.prototype.category;
+    /** @type {?} */
+    EntriesParams.prototype.howMany;
+    /** @type {?} */
+    EntriesParams.prototype.offSet;
+    /** @type {?} */
+    EntriesParams.prototype.levels;
+    /** @type {?} */
+    EntriesParams.prototype.textToFind;
+    /** @type {?} */
+    EntriesParams.prototype.useHistory;
+    /** @type {?} */
+    EntriesParams.prototype.accountName;
+    /** @type {?} */
+    EntriesParams.prototype.rangeDateStart;
+    /** @type {?} */
+    EntriesParams.prototype.rangeDateEnd;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var MonitorParams = /** @class */ (function () {
     function MonitorParams() {
     }
     return MonitorParams;
 }());
+if (false) {
+    /** @type {?} */
+    MonitorParams.prototype.accountName;
+    /** @type {?} */
+    MonitorParams.prototype.instanceKey;
+    /** @type {?} */
+    MonitorParams.prototype.processName;
+    /** @type {?} */
+    MonitorParams.prototype.minutes;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var OperationResult = /** @class */ (function () {
     function OperationResult() {
     }
     return OperationResult;
 }());
+if (false) {
+    /** @type {?} */
+    OperationResult.prototype.Result;
+    /** @type {?} */
+    OperationResult.prototype.Message;
+    /** @type {?} */
+    OperationResult.prototype.Code;
+    /** @type {?} */
+    OperationResult.prototype.Content;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var LoggerOperationResult = /** @class */ (function () {
     function LoggerOperationResult() {
     }
     return LoggerOperationResult;
 }());
+if (false) {
+    /** @type {?} */
+    LoggerOperationResult.prototype.Result;
+    /** @type {?} */
+    LoggerOperationResult.prototype.Message;
+    /** @type {?} */
+    LoggerOperationResult.prototype.Code;
+    /** @type {?} */
+    LoggerOperationResult.prototype.Content;
+}
 var TBServerInfos = /** @class */ (function () {
     function TBServerInfos() {
     }
     return TBServerInfos;
 }());
+if (false) {
+    /** @type {?} */
+    TBServerInfos.prototype.tread;
+}
 var TBServerInfo = /** @class */ (function () {
     function TBServerInfo() {
     }
     return TBServerInfo;
 }());
+if (false) {
+    /** @type {?} */
+    TBServerInfo.prototype.DateTime;
+    /** @type {?} */
+    TBServerInfo.prototype.ProcessName;
+    /** @type {?} */
+    TBServerInfo.prototype.LoginNumber;
+    /** @type {?} */
+    TBServerInfo.prototype.DocumentNumber;
+    /** @type {?} */
+    TBServerInfo.prototype.DocMetrics;
+    /** @type {?} */
+    TBServerInfo.prototype.LernelMS;
+    /** @type {?} */
+    TBServerInfo.prototype.LoginInfos;
+    /** @type {?} */
+    TBServerInfo.prototype.PhisicalMemory;
+    /** @type {?} */
+    TBServerInfo.prototype.UserMS;
+    /** @type {?} */
+    TBServerInfo.prototype.VirtualMemory;
+    /** @type {?} */
+    TBServerInfo.prototype.threads;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var Log = /** @class */ (function () {
     function Log() {
     }
     return Log;
 }());
+if (false) {
+    /** @type {?} */
+    Log.prototype._id;
+    /** @type {?} */
+    Log.prototype.LogEntry;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 var LogStatus = {
@@ -91,7 +183,7 @@ LogStatus[LogStatus.Fatal] = 'Fatal';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var loggerInstance;
@@ -100,6 +192,26 @@ var logger = (/**
  * @return {?}
  */
 function () { return loggerInstance; });
+/**
+ * @record
+ */
+function LogEntry() { }
+if (false) {
+    /** @type {?} */
+    LogEntry.prototype.Message;
+    /** @type {?} */
+    LogEntry.prototype.Registeredappid;
+    /** @type {?|undefined} */
+    LogEntry.prototype.AccountName;
+    /** @type {?|undefined} */
+    LogEntry.prototype.Subscription;
+    /** @type {?|undefined} */
+    LogEntry.prototype.App;
+    /** @type {?|undefined} */
+    LogEntry.prototype.Category;
+    /** @type {?} */
+    LogEntry.prototype.Level;
+}
 /** @enum {number} */
 var LogLevel = {
     Trace: 0,
@@ -598,13 +710,50 @@ var TbLoggerService = /** @class */ (function () {
         { type: HttpClient },
         { type: StompRService }
     ]; };
-    /** @nocollapse */ TbLoggerService.ngInjectableDef = defineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(inject("env"), inject(HttpClient), inject(StompRService)); }, token: TbLoggerService, providedIn: "root" });
+    /** @nocollapse */ TbLoggerService.ngInjectableDef = ɵɵdefineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(ɵɵinject("env"), ɵɵinject(HttpClient), ɵɵinject(StompRService)); }, token: TbLoggerService, providedIn: "root" });
     return TbLoggerService;
 }());
+if (false) {
+    /** @type {?} */
+    TbLoggerService.prototype.loggerUrl;
+    /** @type {?} */
+    TbLoggerService.prototype.serverMonitorUrl;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype.howMany;
+    /** @type {?} */
+    TbLoggerService.prototype.mqConnectionState;
+    /** @type {?} */
+    TbLoggerService.prototype.mqConnectionStateObservable;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype._shouldLog;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype._serverLog;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype.env;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype.http;
+    /** @type {?} */
+    TbLoggerService.prototype.stompService;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TbNotificationService = /** @class */ (function () {
     function TbNotificationService(notificationService) {
@@ -639,13 +788,20 @@ var TbNotificationService = /** @class */ (function () {
     TbNotificationService.ctorParameters = function () { return [
         { type: NotificationService }
     ]; };
-    /** @nocollapse */ TbNotificationService.ngInjectableDef = defineInjectable({ factory: function TbNotificationService_Factory() { return new TbNotificationService(inject(NotificationService)); }, token: TbNotificationService, providedIn: "root" });
+    /** @nocollapse */ TbNotificationService.ngInjectableDef = ɵɵdefineInjectable({ factory: function TbNotificationService_Factory() { return new TbNotificationService(ɵɵinject(NotificationService)); }, token: TbNotificationService, providedIn: "root" });
     return TbNotificationService;
 }());
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    TbNotificationService.prototype.notificationService;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TbLoggerModule = /** @class */ (function () {
     function TbLoggerModule() {
@@ -673,14 +829,13 @@ var TbLoggerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { EntriesParams, MonitorParams, OperationResult, LoggerOperationResult, TBServerInfos, TBServerInfo, Log, LogStatus, prepareLog, logger, LogLevel, TbLoggerService, TbNotificationService, TbLoggerModule };
-
+export { EntriesParams, Log, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, OperationResult, TBServerInfo, TBServerInfos, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
 //# sourceMappingURL=tb-logger.js.map

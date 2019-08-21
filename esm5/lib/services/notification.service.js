@@ -1,6 +1,6 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 import { Injectable } from '@angular/core';
 import { NotificationService } from '@progress/kendo-angular-notification';
@@ -39,7 +39,7 @@ var TbNotificationService = /** @class */ (function () {
     TbNotificationService.ctorParameters = function () { return [
         { type: NotificationService }
     ]; };
-    /** @nocollapse */ TbNotificationService.ngInjectableDef = i0.defineInjectable({ factory: function TbNotificationService_Factory() { return new TbNotificationService(i0.inject(i1.NotificationService)); }, token: TbNotificationService, providedIn: "root" });
+    /** @nocollapse */ TbNotificationService.ngInjectableDef = i0.ɵɵdefineInjectable({ factory: function TbNotificationService_Factory() { return new TbNotificationService(i0.ɵɵinject(i1.NotificationService)); }, token: TbNotificationService, providedIn: "root" });
     return TbNotificationService;
 }());
 export { TbNotificationService };
