@@ -3,13 +3,12 @@ export declare class LoggerOperationResult {
     Message?: string;
     Code?: number;
     Content?: any;
-    constructor();
+    constructor(Result: boolean, Message: string);
 }
-export declare class TBServerInfos {
+export interface TBServerInfos {
     tread: TBServerInfo[];
-    constructor();
 }
-export declare class TBServerInfo {
+export interface TBServerInfo {
     DateTime: string;
     ProcessName: string;
     LoginNumber?: number;
@@ -21,5 +20,4 @@ export declare class TBServerInfo {
     UserMS?: number;
     VirtualMemory?: number;
     threads?: any[];
-    constructor();
 }

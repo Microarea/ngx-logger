@@ -16,7 +16,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EntriesParams = /** @class */ (function () {
-    function EntriesParams() {
+    function EntriesParams(instanceKey) {
+        this.instanceKey = instanceKey;
     }
     return EntriesParams;
 }());
@@ -54,15 +55,19 @@ if (false) {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var MonitorParams = /** @class */ (function () {
-    function MonitorParams() {
+    function MonitorParams(instanceKey, accountName, processName) {
+        this.minutes = '1';
+        this.instanceKey = instanceKey;
+        this.accountName = accountName;
+        this.processName = processName;
     }
     return MonitorParams;
 }());
 if (false) {
     /** @type {?} */
-    MonitorParams.prototype.accountName;
-    /** @type {?} */
     MonitorParams.prototype.instanceKey;
+    /** @type {?} */
+    MonitorParams.prototype.accountName;
     /** @type {?} */
     MonitorParams.prototype.processName;
     /** @type {?} */
@@ -73,28 +78,9 @@ if (false) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var OperationResult = /** @class */ (function () {
-    function OperationResult() {
-    }
-    return OperationResult;
-}());
-if (false) {
-    /** @type {?} */
-    OperationResult.prototype.Result;
-    /** @type {?} */
-    OperationResult.prototype.Message;
-    /** @type {?} */
-    OperationResult.prototype.Code;
-    /** @type {?} */
-    OperationResult.prototype.Content;
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 var LoggerOperationResult = /** @class */ (function () {
-    function LoggerOperationResult() {
+    function LoggerOperationResult(Result, Message) {
+        this.Result = Result;
     }
     return LoggerOperationResult;
 }());
@@ -108,42 +94,40 @@ if (false) {
     /** @type {?} */
     LoggerOperationResult.prototype.Content;
 }
-var TBServerInfos = /** @class */ (function () {
-    function TBServerInfos() {
-    }
-    return TBServerInfos;
-}());
+/**
+ * @record
+ */
+function TBServerInfos() { }
 if (false) {
     /** @type {?} */
     TBServerInfos.prototype.tread;
 }
-var TBServerInfo = /** @class */ (function () {
-    function TBServerInfo() {
-    }
-    return TBServerInfo;
-}());
+/**
+ * @record
+ */
+function TBServerInfo() { }
 if (false) {
     /** @type {?} */
     TBServerInfo.prototype.DateTime;
     /** @type {?} */
     TBServerInfo.prototype.ProcessName;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LoginNumber;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.DocumentNumber;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.DocMetrics;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LernelMS;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LoginInfos;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.PhisicalMemory;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.UserMS;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.VirtualMemory;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.threads;
 }
 
@@ -151,11 +135,10 @@ if (false) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var Log = /** @class */ (function () {
-    function Log() {
-    }
-    return Log;
-}());
+/**
+ * @record
+ */
+function Log() { }
 if (false) {
     /** @type {?} */
     Log.prototype._id;
@@ -264,6 +247,8 @@ var TbLoggerService = /** @class */ (function () {
             return _this._shouldLog(logLevel) && _this.http.post(_this.getLoggerPostUrl(), prepareLog(message, logLevel)).toPromise();
         });
         loggerInstance = this;
+        this.loggerUrl = this.env.logger.url;
+        this.serverMonitorUrl = this.env.serverMonitor.url;
         if (env.stompConfig)
             this.mqInit();
     }
@@ -460,9 +445,7 @@ var TbLoggerService = /** @class */ (function () {
     function (params) {
         if (!params.instanceKey) {
             /** @type {?} */
-            var error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No instanceKey, no party';
+            var error = new LoggerOperationResult(false, 'Error - No instanceKey, no party');
             return of(error);
         }
         // console.log('this.getLoggerUrl()', this.getLoggerUrl());
@@ -508,9 +491,7 @@ var TbLoggerService = /** @class */ (function () {
     function (appId) {
         if (!appId) {
             /** @type {?} */
-            var error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            var error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -530,9 +511,7 @@ var TbLoggerService = /** @class */ (function () {
     function (appId) {
         if (!appId) {
             /** @type {?} */
-            var error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            var error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -583,9 +562,7 @@ var TbLoggerService = /** @class */ (function () {
     function (appId) {
         if (!appId) {
             /** @type {?} */
-            var error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            var error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -837,5 +814,5 @@ var TbLoggerModule = /** @class */ (function () {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { EntriesParams, Log, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, OperationResult, TBServerInfo, TBServerInfos, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
+export { EntriesParams, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
 //# sourceMappingURL=tb-logger.js.map

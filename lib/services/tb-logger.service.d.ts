@@ -4,12 +4,13 @@ import { StompRService, StompState } from '@stomp/ng2-stompjs';
 import { LoggerOperationResult, TBServerInfo } from '../models/logger-operation-result.model';
 import { EntriesParams } from '../models/entries.model';
 import { MonitorParams } from '../models/monitor.model';
+import { TbLoggerEnvironment } from '../models/logger-environment';
 export declare const logger: () => TbLoggerService;
 export interface LogEntry {
     Message: string;
     Registeredappid: string;
-    AccountName?: string;
-    Subscription?: string;
+    AccountName?: string | null;
+    Subscription?: string | null;
     App?: string;
     Category?: string;
     Level: LogLevel;
@@ -29,19 +30,19 @@ export declare class TbLoggerService {
     serverMonitorUrl: string;
     private howMany;
     mqConnectionState: StompState;
-    mqConnectionStateObservable: BehaviorSubject<StompState>;
-    constructor(env: any, http: HttpClient, stompService: StompRService);
+    mqConnectionStateObservable: BehaviorSubject<number>;
+    constructor(env: TbLoggerEnvironment, http: HttpClient, stompService: StompRService);
     mqInit(): void;
     /**
      * Ritorna la App Id dell'applicazione frontend che sta loggando,
      * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
      */
-    getAppId(): any;
+    getAppId(): string;
     /**
      * Ritorna la base url del logger,
      * caricata da un file di configurazione caricato dinamicamente (assets/environment.json)
      */
-    getLoggerUrl(): any;
+    getLoggerUrl(): string;
     /**
      * Ritorna la api per inserire log con appId configurato in environment.json
      */
@@ -49,7 +50,7 @@ export declare class TbLoggerService {
     /**
      * M4 Backend URL
      */
-    getServerMonitorUrl(): any;
+    getServerMonitorUrl(): string;
     private _shouldLog;
     private _serverLog;
     /**

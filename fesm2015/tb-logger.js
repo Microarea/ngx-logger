@@ -16,7 +16,12 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class EntriesParams {
-    constructor() { }
+    /**
+     * @param {?} instanceKey
+     */
+    constructor(instanceKey) {
+        this.instanceKey = instanceKey;
+    }
 }
 if (false) {
     /** @type {?} */
@@ -52,13 +57,23 @@ if (false) {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class MonitorParams {
-    constructor() { }
+    /**
+     * @param {?} instanceKey
+     * @param {?} accountName
+     * @param {?} processName
+     */
+    constructor(instanceKey, accountName, processName) {
+        this.minutes = '1';
+        this.instanceKey = instanceKey;
+        this.accountName = accountName;
+        this.processName = processName;
+    }
 }
 if (false) {
     /** @type {?} */
-    MonitorParams.prototype.accountName;
-    /** @type {?} */
     MonitorParams.prototype.instanceKey;
+    /** @type {?} */
+    MonitorParams.prototype.accountName;
     /** @type {?} */
     MonitorParams.prototype.processName;
     /** @type {?} */
@@ -69,26 +84,14 @@ if (false) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class OperationResult {
-    constructor() { }
-}
-if (false) {
-    /** @type {?} */
-    OperationResult.prototype.Result;
-    /** @type {?} */
-    OperationResult.prototype.Message;
-    /** @type {?} */
-    OperationResult.prototype.Code;
-    /** @type {?} */
-    OperationResult.prototype.Content;
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 class LoggerOperationResult {
-    constructor() { }
+    /**
+     * @param {?} Result
+     * @param {?} Message
+     */
+    constructor(Result, Message) {
+        this.Result = Result;
+    }
 }
 if (false) {
     /** @type {?} */
@@ -100,38 +103,40 @@ if (false) {
     /** @type {?} */
     LoggerOperationResult.prototype.Content;
 }
-class TBServerInfos {
-    constructor() { }
-}
+/**
+ * @record
+ */
+function TBServerInfos() { }
 if (false) {
     /** @type {?} */
     TBServerInfos.prototype.tread;
 }
-class TBServerInfo {
-    constructor() { }
-}
+/**
+ * @record
+ */
+function TBServerInfo() { }
 if (false) {
     /** @type {?} */
     TBServerInfo.prototype.DateTime;
     /** @type {?} */
     TBServerInfo.prototype.ProcessName;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LoginNumber;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.DocumentNumber;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.DocMetrics;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LernelMS;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.LoginInfos;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.PhisicalMemory;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.UserMS;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.VirtualMemory;
-    /** @type {?} */
+    /** @type {?|undefined} */
     TBServerInfo.prototype.threads;
 }
 
@@ -139,9 +144,10 @@ if (false) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class Log {
-    constructor() { }
-}
+/**
+ * @record
+ */
+function Log() { }
 if (false) {
     /** @type {?} */
     Log.prototype._id;
@@ -251,6 +257,8 @@ class TbLoggerService {
          */
         (logLevel, message) => this._shouldLog(logLevel) && this.http.post(this.getLoggerPostUrl(), prepareLog(message, logLevel)).toPromise());
         loggerInstance = this;
+        this.loggerUrl = this.env.logger.url;
+        this.serverMonitorUrl = this.env.serverMonitor.url;
         if (env.stompConfig)
             this.mqInit();
     }
@@ -356,9 +364,7 @@ class TbLoggerService {
     getLogs(params) {
         if (!params.instanceKey) {
             /** @type {?} */
-            const error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No instanceKey, no party';
+            const error = new LoggerOperationResult(false, 'Error - No instanceKey, no party');
             return of(error);
         }
         // console.log('this.getLoggerUrl()', this.getLoggerUrl());
@@ -400,9 +406,7 @@ class TbLoggerService {
     getApps(appId) {
         if (!appId) {
             /** @type {?} */
-            const error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            const error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -418,9 +422,7 @@ class TbLoggerService {
     getAppTypes(appId) {
         if (!appId) {
             /** @type {?} */
-            const error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            const error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -457,9 +459,7 @@ class TbLoggerService {
     getCategories(appId) {
         if (!appId) {
             /** @type {?} */
-            const error = new LoggerOperationResult();
-            error.Result = false;
-            error.Message = 'Error - No appId, no party';
+            const error = new LoggerOperationResult(false, 'Error - No appId, no party');
             return of(error);
         }
         /** @type {?} */
@@ -660,5 +660,5 @@ TbLoggerModule.decorators = [
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { EntriesParams, Log, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, OperationResult, TBServerInfo, TBServerInfos, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
+export { EntriesParams, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
 //# sourceMappingURL=tb-logger.js.map

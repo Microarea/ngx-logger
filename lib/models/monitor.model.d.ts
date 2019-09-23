@@ -1,7 +1,7 @@
 export declare class MonitorParams {
-    accountName: string;
     instanceKey: string;
+    accountName: string;
     processName: string;
     minutes: string;
-    constructor();
+    constructor(instanceKey: string, accountName: string, processName: string);
 }

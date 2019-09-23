@@ -12,5 +12,5 @@ export declare class EntriesParams {
     accountName: string;
     rangeDateStart: string;
     rangeDateEnd: string;
-    constructor();
+    constructor(instanceKey: string);
 }

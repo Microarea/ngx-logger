@@ -1,4 +1,4 @@
-export declare class Log {
+export interface Log {
     _id: string;
     LogEntry: {
         App: string;
@@ -18,5 +18,4 @@ export declare class Log {
         Message: string;
         Level: number;
     };
-    constructor();
 }
