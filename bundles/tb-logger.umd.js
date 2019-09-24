@@ -236,9 +236,7 @@
              * @param {?} message
              * @return {?}
              */
-            function (logLevel, message) {
-                return _this._shouldLog(logLevel) && _this.http.post(_this.getLoggerPostUrl(), prepareLog(message, logLevel)).toPromise();
-            });
+            function (logLevel, message) { return _this._shouldLog(logLevel) && _this.sendLog(message, logLevel); });
             loggerInstance = this;
             this.loggerUrl = this.env.logger.url;
             this.serverMonitorUrl = this.env.serverMonitor.url;
@@ -327,6 +325,32 @@
          */
         function () {
             return this.serverMonitorUrl ? this.serverMonitorUrl : this.env.serverMonitor.url;
+        };
+        /**
+         * @private
+         * @param {?} message
+         * @param {?} logLevel
+         * @return {?}
+         */
+        TbLoggerService.prototype.sendLog = /**
+         * @private
+         * @param {?} message
+         * @param {?} logLevel
+         * @return {?}
+         */
+        function (message, logLevel) {
+            this.http
+                .post(this.getLoggerPostUrl(), prepareLog(message, logLevel))
+                .toPromise()
+                .then((/**
+             * @param {?} __
+             * @return {?}
+             */
+            function (__) { }), (/**
+             * @param {?} err
+             * @return {?}
+             */
+            function (err) { }));
         };
         /**
          * @param message
@@ -471,7 +495,7 @@
             };
             return this.http.get(url, httpOptions).pipe(
             // tap(op => console.log('TbLoggerService.getLogs', op)),
-            operators.catchError(this.handleError('TbLoggerService.getLogs', false)));
+            operators.catchError(this.handleError('TbLoggerService.getLogs', new LoggerOperationResult(false, 'Error - getLogs'))));
         };
         /**
          * @param {?} appId
@@ -491,7 +515,7 @@
             var url = this.getLoggerUrl() + ("apps/" + appId);
             return this.http.get(url).pipe(
             // tap(op => console.log('TbLoggerService.getApps with appId: ', appId, op)),
-            operators.catchError(this.handleError('TbLoggerService.getApps', false)));
+            operators.catchError(this.handleError('TbLoggerService.getApps', new LoggerOperationResult(false, 'Error - getApps'))));
         };
         /**
          * @param {?} appId
@@ -511,7 +535,7 @@
             var url = this.getLoggerUrl() + ("appTypes/" + appId);
             return this.http.get(url).pipe(
             // tap(op => console.log('TbLoggerService.getAppTypes with appId: ', appId, op)),
-            operators.catchError(this.handleError('TbLoggerService.getAppTypes', false)));
+            operators.catchError(this.handleError('TbLoggerService.getAppTypes', new LoggerOperationResult(false, 'Error - getAppTypes'))));
         };
         /**
          * @return {?}
@@ -524,7 +548,7 @@
             var url = this.getLoggerUrl() + "appIds";
             return this.http.get(url).pipe(
             // tap(op => console.log(url, 'TbLoggerService.getInstanceKey with appId: ', op)),
-            operators.catchError(this.handleError('TbLoggerService.getInstanceKey', false)));
+            operators.catchError(this.handleError('TbLoggerService.getInstanceKey', new LoggerOperationResult(false, 'Error - getInstanceKey'))));
         };
         /**
          * Legge tutte le subscription
@@ -542,7 +566,7 @@
             var url = this.getLoggerUrl() + "subscriptionKeys";
             return this.http.get(url).pipe(
             // tap(op => console.log('TbLoggerService.getSubscriptionKey: ', op)),
-            operators.catchError(this.handleError('TbLoggerService.getSubscriptionKey', false)));
+            operators.catchError(this.handleError('TbLoggerService.getSubscriptionKey', new LoggerOperationResult(false, 'Error - getSubscriptionKey'))));
         };
         /**
          * @param {?} appId
@@ -562,7 +586,7 @@
             var url = this.getLoggerUrl() + ("categories/" + appId);
             return this.http.get(url).pipe(
             // tap(op => console.log('TbLoggerService.getCategories with appId: ', appId, op)),
-            operators.catchError(this.handleError('TbLoggerService.getCategories', false)));
+            operators.catchError(this.handleError('TbLoggerService.getCategories', new LoggerOperationResult(false, 'Error -  getCategories'))));
         };
         /**
          * Handle Http operation that failed.

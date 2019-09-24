@@ -53,6 +53,7 @@ export declare class TbLoggerService {
     getServerMonitorUrl(): string;
     private _shouldLog;
     private _serverLog;
+    private sendLog;
     /**
      * @param message
      * @param optionalParams
@@ -85,15 +86,15 @@ export declare class TbLoggerService {
      *
      * @param params: EntriesParams
      */
-    getLogs(params: EntriesParams): Observable<boolean | LoggerOperationResult>;
-    getApps(appId: string): Observable<boolean | LoggerOperationResult>;
-    getAppTypes(appId: string): Observable<boolean | LoggerOperationResult>;
-    getInstanceKey(): Observable<boolean | LoggerOperationResult>;
+    getLogs(params: EntriesParams): Observable<LoggerOperationResult>;
+    getApps(appId: string): Observable<LoggerOperationResult>;
+    getAppTypes(appId: string): Observable<LoggerOperationResult>;
+    getInstanceKey(): Observable<LoggerOperationResult>;
     /**
      * Legge tutte le subscription
      */
-    getSubscriptionKey(): Observable<boolean | LoggerOperationResult>;
-    getCategories(appId: string): Observable<boolean | LoggerOperationResult>;
+    getSubscriptionKey(): Observable<LoggerOperationResult>;
+    getCategories(appId: string): Observable<LoggerOperationResult>;
     /**
      * Handle Http operation that failed.
      * Let the app continue.
