@@ -238,8 +238,8 @@
              */
             function (logLevel, message) { return _this._shouldLog(logLevel) && _this.sendLog(message, logLevel); });
             loggerInstance = this;
-            this.loggerUrl = this.env.logger.url;
-            this.serverMonitorUrl = this.env.serverMonitor.url;
+            this.loggerUrl = this.env.logger && this.env.logger.url;
+            this.serverMonitorUrl = this.env.serverMonitor && this.env.serverMonitor.url;
             if (env.stompConfig)
                 this.mqInit();
         }
@@ -350,7 +350,7 @@
              * @param {?} err
              * @return {?}
              */
-            function (err) { }));
+            function (err) { return true; }));
         };
         /**
          * @param message

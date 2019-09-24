@@ -257,8 +257,8 @@ class TbLoggerService {
          */
         (logLevel, message) => this._shouldLog(logLevel) && this.sendLog(message, logLevel));
         loggerInstance = this;
-        this.loggerUrl = this.env.logger.url;
-        this.serverMonitorUrl = this.env.serverMonitor.url;
+        this.loggerUrl = this.env.logger && this.env.logger.url;
+        this.serverMonitorUrl = this.env.serverMonitor && this.env.serverMonitor.url;
         if (env.stompConfig)
             this.mqInit();
     }
@@ -327,7 +327,7 @@ class TbLoggerService {
          * @param {?} err
          * @return {?}
          */
-        err => { }));
+        err => true));
     }
     /**
      * @param {?=} message
