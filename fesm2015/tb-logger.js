@@ -1,4 +1,4 @@
-import { Injectable, Inject, ɵɵdefineInjectable, ɵɵinject, NgModule } from '@angular/core';
+import { Injectable, Inject, NgZone, ɵɵdefineInjectable, ɵɵinject, NgModule } from '@angular/core';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -111,32 +111,39 @@ if (false) {
     /** @type {?} */
     TBServerInfos.prototype.tread;
 }
-/**
- * @record
- */
-function TBServerInfo() { }
+class TBServerInfo {
+    constructor() {
+        this.DateTime = new Date();
+        this.ProcessName = '';
+        this.ProcessId = '';
+        this.VirtualMemory = 100000;
+        this.PhisicalMemory = 100000;
+    }
+}
 if (false) {
     /** @type {?} */
     TBServerInfo.prototype.DateTime;
     /** @type {?} */
     TBServerInfo.prototype.ProcessName;
-    /** @type {?|undefined} */
+    /** @type {?} */
+    TBServerInfo.prototype.ProcessId;
+    /** @type {?} */
     TBServerInfo.prototype.LoginNumber;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.DocumentNumber;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.DocMetrics;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.LernelMS;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.LoginInfos;
-    /** @type {?|undefined} */
-    TBServerInfo.prototype.PhisicalMemory;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.UserMS;
-    /** @type {?|undefined} */
+    /** @type {?} */
     TBServerInfo.prototype.VirtualMemory;
-    /** @type {?|undefined} */
+    /** @type {?} */
+    TBServerInfo.prototype.PhisicalMemory;
+    /** @type {?} */
     TBServerInfo.prototype.threads;
 }
 
@@ -237,11 +244,13 @@ class TbLoggerService {
      * @param {?} env
      * @param {?} http
      * @param {?} stompService
+     * @param {?} ngZone
      */
-    constructor(env, http, stompService) {
+    constructor(env, http, stompService, ngZone) {
         this.env = env;
         this.http = http;
         this.stompService = stompService;
+        this.ngZone = ngZone;
         this.howMany = 100;
         this.mqConnectionState = StompState.CLOSED;
         this.mqConnectionStateObservable = new BehaviorSubject(StompState.CLOSED);
@@ -316,18 +325,23 @@ class TbLoggerService {
      * @return {?}
      */
     sendLog(message, logLevel) {
-        this.http
-            .post(this.getLoggerPostUrl(), prepareLog(message, logLevel))
-            .toPromise()
-            .then((/**
-         * @param {?} __
+        this.ngZone.runOutsideAngular((/**
          * @return {?}
          */
-        __ => { }), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        err => true));
+        () => {
+            this.http
+                .post(this.getLoggerPostUrl(), prepareLog(message, logLevel))
+                .toPromise()
+                .then((/**
+             * @param {?} __
+             * @return {?}
+             */
+            __ => { }), (/**
+             * @param {?} err
+             * @return {?}
+             */
+            err => true));
+        }));
     }
     /**
      * @param {?=} message
@@ -551,7 +565,7 @@ class TbLoggerService {
         const httpOptions = { params: p };
         /** @type {?} */
         const url = this.getServerMonitorUrl() + `tbServers/${params.instanceKey}`;
-        return this.http.get(url, httpOptions).pipe(catchError(this.handleError('TbLoggerService.getTBInfosLogs', false)));
+        return this.http.get(url, httpOptions).pipe(catchError(this.handleError('TbLoggerService.getTBInfosLogs', [])));
     }
 }
 TbLoggerService.decorators = [
@@ -563,9 +577,10 @@ TbLoggerService.decorators = [
 TbLoggerService.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: ['env',] }] },
     { type: HttpClient },
-    { type: StompRService }
+    { type: StompRService },
+    { type: NgZone }
 ];
-/** @nocollapse */ TbLoggerService.ngInjectableDef = ɵɵdefineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(ɵɵinject("env"), ɵɵinject(HttpClient), ɵɵinject(StompRService)); }, token: TbLoggerService, providedIn: "root" });
+/** @nocollapse */ TbLoggerService.ngInjectableDef = ɵɵdefineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(ɵɵinject("env"), ɵɵinject(HttpClient), ɵɵinject(StompRService), ɵɵinject(NgZone)); }, token: TbLoggerService, providedIn: "root" });
 if (false) {
     /** @type {?} */
     TbLoggerService.prototype.loggerUrl;
@@ -602,6 +617,11 @@ if (false) {
     TbLoggerService.prototype.http;
     /** @type {?} */
     TbLoggerService.prototype.stompService;
+    /**
+     * @type {?}
+     * @private
+     */
+    TbLoggerService.prototype.ngZone;
 }
 
 /**
@@ -680,5 +700,5 @@ TbLoggerModule.decorators = [
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { EntriesParams, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
+export { EntriesParams, LogLevel, LogStatus, LoggerOperationResult, MonitorParams, TBServerInfo, TbLoggerModule, TbLoggerService, TbNotificationService, logger, prepareLog };
 //# sourceMappingURL=tb-logger.js.map

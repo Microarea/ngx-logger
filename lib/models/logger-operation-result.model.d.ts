@@ -8,16 +8,17 @@ export declare class LoggerOperationResult {
 export interface TBServerInfos {
     tread: TBServerInfo[];
 }
-export interface TBServerInfo {
-    DateTime: string;
+export declare class TBServerInfo {
+    DateTime: Date;
     ProcessName: string;
+    ProcessId: string;
     LoginNumber?: number;
     DocumentNumber?: number;
     DocMetrics?: any[];
     LernelMS?: number;
     LoginInfos?: any[];
-    PhisicalMemory?: number;
     UserMS?: number;
-    VirtualMemory?: number;
+    VirtualMemory: number;
+    PhisicalMemory: number;
     threads?: any[];
 }

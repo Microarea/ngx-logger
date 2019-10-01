@@ -95,32 +95,40 @@
         /** @type {?} */
         TBServerInfos.prototype.tread;
     }
-    /**
-     * @record
-     */
-    function TBServerInfo() { }
+    var TBServerInfo = /** @class */ (function () {
+        function TBServerInfo() {
+            this.DateTime = new Date();
+            this.ProcessName = '';
+            this.ProcessId = '';
+            this.VirtualMemory = 100000;
+            this.PhisicalMemory = 100000;
+        }
+        return TBServerInfo;
+    }());
     if (false) {
         /** @type {?} */
         TBServerInfo.prototype.DateTime;
         /** @type {?} */
         TBServerInfo.prototype.ProcessName;
-        /** @type {?|undefined} */
+        /** @type {?} */
+        TBServerInfo.prototype.ProcessId;
+        /** @type {?} */
         TBServerInfo.prototype.LoginNumber;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.DocumentNumber;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.DocMetrics;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.LernelMS;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.LoginInfos;
-        /** @type {?|undefined} */
-        TBServerInfo.prototype.PhisicalMemory;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.UserMS;
-        /** @type {?|undefined} */
+        /** @type {?} */
         TBServerInfo.prototype.VirtualMemory;
-        /** @type {?|undefined} */
+        /** @type {?} */
+        TBServerInfo.prototype.PhisicalMemory;
+        /** @type {?} */
         TBServerInfo.prototype.threads;
     }
 
@@ -218,11 +226,12 @@
         return log;
     }
     var TbLoggerService = /** @class */ (function () {
-        function TbLoggerService(env, http, stompService) {
+        function TbLoggerService(env, http, stompService, ngZone) {
             var _this = this;
             this.env = env;
             this.http = http;
             this.stompService = stompService;
+            this.ngZone = ngZone;
             this.howMany = 100;
             this.mqConnectionState = ng2Stompjs.StompState.CLOSED;
             this.mqConnectionStateObservable = new rxjs.BehaviorSubject(ng2Stompjs.StompState.CLOSED);
@@ -339,18 +348,24 @@
          * @return {?}
          */
         function (message, logLevel) {
-            this.http
-                .post(this.getLoggerPostUrl(), prepareLog(message, logLevel))
-                .toPromise()
-                .then((/**
-             * @param {?} __
+            var _this = this;
+            this.ngZone.runOutsideAngular((/**
              * @return {?}
              */
-            function (__) { }), (/**
-             * @param {?} err
-             * @return {?}
-             */
-            function (err) { return true; }));
+            function () {
+                _this.http
+                    .post(_this.getLoggerPostUrl(), prepareLog(message, logLevel))
+                    .toPromise()
+                    .then((/**
+                 * @param {?} __
+                 * @return {?}
+                 */
+                function (__) { }), (/**
+                 * @param {?} err
+                 * @return {?}
+                 */
+                function (err) { return true; }));
+            }));
         };
         /**
          * @param message
@@ -691,7 +706,7 @@
             var httpOptions = { params: p };
             /** @type {?} */
             var url = this.getServerMonitorUrl() + ("tbServers/" + params.instanceKey);
-            return this.http.get(url, httpOptions).pipe(operators.catchError(this.handleError('TbLoggerService.getTBInfosLogs', false)));
+            return this.http.get(url, httpOptions).pipe(operators.catchError(this.handleError('TbLoggerService.getTBInfosLogs', [])));
         };
         TbLoggerService.decorators = [
             { type: core.Injectable, args: [{
@@ -702,9 +717,10 @@
         TbLoggerService.ctorParameters = function () { return [
             { type: undefined, decorators: [{ type: core.Inject, args: ['env',] }] },
             { type: http.HttpClient },
-            { type: ng2Stompjs.StompRService }
+            { type: ng2Stompjs.StompRService },
+            { type: core.NgZone }
         ]; };
-        /** @nocollapse */ TbLoggerService.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(core.ɵɵinject("env"), core.ɵɵinject(http.HttpClient), core.ɵɵinject(ng2Stompjs.StompRService)); }, token: TbLoggerService, providedIn: "root" });
+        /** @nocollapse */ TbLoggerService.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function TbLoggerService_Factory() { return new TbLoggerService(core.ɵɵinject("env"), core.ɵɵinject(http.HttpClient), core.ɵɵinject(ng2Stompjs.StompRService), core.ɵɵinject(core.NgZone)); }, token: TbLoggerService, providedIn: "root" });
         return TbLoggerService;
     }());
     if (false) {
@@ -743,6 +759,11 @@
         TbLoggerService.prototype.http;
         /** @type {?} */
         TbLoggerService.prototype.stompService;
+        /**
+         * @type {?}
+         * @private
+         */
+        TbLoggerService.prototype.ngZone;
     }
 
     /**
@@ -826,6 +847,7 @@
     exports.LogStatus = LogStatus;
     exports.LoggerOperationResult = LoggerOperationResult;
     exports.MonitorParams = MonitorParams;
+    exports.TBServerInfo = TBServerInfo;
     exports.TbLoggerModule = TbLoggerModule;
     exports.TbLoggerService = TbLoggerService;
     exports.TbNotificationService = TbNotificationService;

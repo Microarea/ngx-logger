@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { StompRService, StompState } from '@stomp/ng2-stompjs';
@@ -26,12 +27,13 @@ export declare class TbLoggerService {
     private env;
     private http;
     stompService: StompRService;
+    private ngZone;
     loggerUrl: string;
     serverMonitorUrl: string;
     private howMany;
     mqConnectionState: StompState;
     mqConnectionStateObservable: BehaviorSubject<number>;
-    constructor(env: TbLoggerEnvironment, http: HttpClient, stompService: StompRService);
+    constructor(env: TbLoggerEnvironment, http: HttpClient, stompService: StompRService, ngZone: NgZone);
     mqInit(): void;
     /**
      * Ritorna la App Id dell'applicazione frontend che sta loggando,
@@ -108,5 +110,5 @@ export declare class TbLoggerService {
     mqConnect(queueName: string): Observable<any>;
     mqConnected(): boolean;
     mqDisconnect(): void;
-    getTBInfosLogs(params: MonitorParams): Observable<boolean | TBServerInfo[]>;
+    getTBInfosLogs(params: MonitorParams): Observable<TBServerInfo[]>;
 }
