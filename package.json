@@ -1,6 +1,6 @@
 {
   "name": "@tb/logger",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "dependencies": {
     "@angular/common": "^9.1.0",
     "@angular/core": "^9.1.0",
@@ -8,6 +8,8 @@
     "@progress/kendo-angular-dropdowns": "^4.2.6",
     "@progress/kendo-angular-notification": "^2.1.0",
     "@progress/kendo-theme-default": "^4.15.0",
+    "@progress/kendo-angular-dateinputs": "^4.0.0",
+    "@progress/kendo-angular-inputs": "^6.0.0",
     "tslib": "^1.9.0"
   },
   "peerDependencies": {
