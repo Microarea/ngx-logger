@@ -1,6 +1,6 @@
 {
   "name": "@tb/logger",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "dependencies": {
     "@angular/common": "^9.1.0",
     "@angular/core": "^9.1.0",
@@ -22,6 +22,5 @@
   "fesm2015": "fesm2015/tb-logger.js",
   "typings": "tb-logger.d.ts",
   "metadata": "tb-logger.metadata.json",
-  "sideEffects": false,
-  
+  "sideEffects": false
 }
