@@ -1,10 +1,10 @@
 {
   "name": "@tb/logger",
-  "version": "1.6.9",
+  "version": "1.7.0",
   "dependencies": {
     "tslib": "^1.9.0",
-    "@angular/common": "^9.1.0",
-    "@angular/core": "^9.1.0",
+    "@angular/common": "^9.1.13",
+    "@angular/core": "^9.1.12",
     "@progress/kendo-angular-buttons": "^5.3.0",
     "@progress/kendo-angular-dropdowns": "^4.2.6",
     "@progress/kendo-angular-notification": "^2.1.0",
