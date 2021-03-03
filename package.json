@@ -1,11 +1,10 @@
 {
   "name": "@tb/logger",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "dependencies": {
     "tslib": "^1.9.0",
     "@angular/common": "^9.1.13",
-    "@angular/core": "^9.1.12",
-   
+    "@angular/core": "^9.1.12"
   },
   "peerDependencies": {
     "@progress/kendo-angular-buttons": "^5.3.0",
