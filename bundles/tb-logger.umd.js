@@ -232,7 +232,11 @@
             this.http = http;
             this.stompService = stompService;
             this.ngZone = ngZone;
-            this.howMany = 100;
+            this.date = new Date();
+            this.timeZoneOffSet = (/**
+             * @return {?}
+             */
+            function () { return -_this.date.getTimezoneOffset() / 60; });
             this.mqConnectionState = ng2Stompjs.StompState.CLOSED;
             this.mqConnectionStateObservable = new rxjs.BehaviorSubject(ng2Stompjs.StompState.CLOSED);
             this._shouldLog = (/**
@@ -480,12 +484,14 @@
                 var error = new LoggerOperationResult(false, 'Error - No instanceKey, no party');
                 return rxjs.of(error);
             }
-            // console.log('this.getLoggerUrl()', this.getLoggerUrl());
             /** @type {?} */
             var url = this.getLoggerUrl() + ("entries/" + params.instanceKey);
             /** @type {?} */
             var p = new http.HttpParams();
-            p = p.append('howMany', '' + this.howMany);
+            if (params.howMany)
+                p = p.append('howMany', params.howMany);
+            if (params.offSet)
+                p = p.append('offSet', params.offSet);
             if (params.accountName)
                 p = p.append('accountName', params.accountName);
             if (params.subscriptionKey)
@@ -500,9 +506,10 @@
                 p = p.append('levels', params.levels);
             if (params.rangeDateStart && params.rangeDateEnd) {
                 if (params.rangeDateStart === params.rangeDateEnd)
-                    p = p.append('date', params.rangeDateStart);
+                    p = p.append('date', params.rangeDateStart + ';' + params.rangeDateEnd);
                 else
                     p = p.append('date', params.rangeDateStart + ';' + params.rangeDateEnd);
+                p = p.append('timeZoneOffSet', this.timeZoneOffSet().toString()); //con il timezoneoffSet non prende l'ora desiderata senza invece si
             }
             /** @type {?} */
             var httpOptions = {
@@ -728,11 +735,10 @@
         TbLoggerService.prototype.loggerUrl;
         /** @type {?} */
         TbLoggerService.prototype.serverMonitorUrl;
-        /**
-         * @type {?}
-         * @private
-         */
-        TbLoggerService.prototype.howMany;
+        /** @type {?} */
+        TbLoggerService.prototype.date;
+        /** @type {?} */
+        TbLoggerService.prototype.timeZoneOffSet;
         /** @type {?} */
         TbLoggerService.prototype.mqConnectionState;
         /** @type {?} */

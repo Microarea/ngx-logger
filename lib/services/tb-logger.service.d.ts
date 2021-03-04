@@ -30,7 +30,8 @@ export declare class TbLoggerService {
     private ngZone;
     loggerUrl: string;
     serverMonitorUrl: string;
-    private howMany;
+    date: Date;
+    timeZoneOffSet: () => number;
     mqConnectionState: StompState;
     mqConnectionStateObservable: BehaviorSubject<number>;
     constructor(env: TbLoggerEnvironment, http: HttpClient, stompService: StompRService, ngZone: NgZone);
